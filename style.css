@@ -24,7 +24,7 @@ main {
 }
 
 header {
-  background-image: url("broken.jpg");
+  background-image: url("images/broken.jpg");
   background-size: 100%;
   background-position-y: 65%;
 }
