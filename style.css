@@ -35,6 +35,8 @@ main ul {
 
 h1,
 h2,
+h3,
+ul,
 p {
   margin: 1rem;
 }
