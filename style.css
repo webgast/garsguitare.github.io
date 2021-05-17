@@ -11,6 +11,14 @@ body {
   font-family: "Kiwi Maru", serif;
 }
 
+a {
+  color: blue;
+}
+
+a:visited {
+  color: purple;
+}
+
 header,
 footer,
 main {
