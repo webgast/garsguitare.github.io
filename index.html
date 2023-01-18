@@ -366,26 +366,6 @@
 
     </main>
 
-        <script>
-        function call() {
-
-            fetch('https://www.stompboxzone.com/decoder/boss_decoder.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    serial_number: '112000',
-                    check_submit: 1
-                })
-            })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error(error))
-        }
-    </script>
-
-    <button onclick="call();"></button>
     
 </body>
 
