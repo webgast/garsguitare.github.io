@@ -687,6 +687,8 @@
                 }
                 //modern serial starting with two letters
                 //source used: http://llamamusic.com/super-jx/Roland_Serial_Number_Decoder_1989-2010.pdf
+                //another source: https://mojostompboxes.com/pages/boss-serial-number-decoder
+                
                 const first = firstCharTable[serial.substr(0, 1).toUpperCase()];
                 const presumedDate = charDecodingGrid[serial.substr(2, 1)][(parseInt(serial.substr(1, 1).toUpperCase(), 36) - 9) - 1];
 
