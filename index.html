@@ -68,6 +68,11 @@
             </p>
 
             <hr />
+            
+            <label>Boss Pedal Serial Date Decoder</label>
+            <input type="text" placeholder="enter your boss pedal serial" id="serial">
+            <button onclick="document.serial.value(decoder(serial.value));">check</button>
+            <hr />
 
             <h3>Services</h3>
 
@@ -366,6 +371,405 @@
 
     </main>
 
+   <script>
+        const firstCharTable = {
+            "A": 1,
+            "B": 2,
+            "C": 3,
+            "D": 4,
+            "E": 5,
+            "F": 6,
+            "G": 7,
+            "H": 8,
+            "I": 9,
+            "J": 10,
+            "K": 11,
+            "L": 12,
+            "M": 13,
+            "N": 14,
+            "O": 15,
+            "P": 16,
+            "Q": 17,
+            "R": 18,
+            "S": 19,
+            "T": 20,
+            "U": 21,
+            "V": 22,
+            "W": 23,
+            "X": 24,
+            "Y": 25,
+            "Z": 0
+        }
+
+        const charDecodingGrid = {
+            9: [
+                "Dec-89, presumably produced in Japan",
+                "Oct-90, could produced in Japan or Taiwan",
+                "Aug-91, presumably produced in Taiwan",
+                "Jun-92, presumably produced in Taiwan",
+                "Apr-93, presumably produced in Taiwan",
+                "Feb-94, presumably produced in Taiwan",
+                "Dec-94, presumably produced in Taiwan",
+                "Oct-95, presumably produced in Taiwan",
+                "Aug-96, presumably produced in Taiwan",
+                "Jun-97, presumably produced in Taiwan",
+                "Apr-98, presumably produced in Taiwan",
+                "Feb-99, presumably produced in Taiwan",
+                "Dec-99, presumably produced in Taiwan",
+                "Oct-00, presumably produced in Taiwan",
+                "Aug-01, presumably produced in Taiwan",
+                "Jun-02, presumably produced in Taiwan",
+                "Apr-03, presumably produced in Taiwan",
+                "Feb-04, presumably produced in Taiwan",
+                "Dec-04, presumably produced in Taiwan",
+                "Oct-05, presumably produced in Taiwan",
+                "Aug-06, presumably produced in Taiwan",
+                "Jun-07, presumably produced in Taiwan",
+                "Apr-08, presumably produced in Taiwan",
+                "Feb-09, presumably produced in Taiwan",
+                "Dec-10, presumably produced in Taiwan",
+                "Oct-10, presumably produced in Taiwan"],
+            8: [
+                "Nov-89, presumably produced in Japan",
+                "Sep-90, could produced in Japan or Taiwan",
+                "Jul-91, presumably produced in Taiwan",
+                "May-92, presumably produced in Taiwan",
+                "Mar-93, presumably produced in Taiwan",
+                "Jan-94, presumably produced in Taiwan",
+                "Nov-94, presumably produced in Taiwan",
+                "Sep-95, presumably produced in Taiwan",
+                "Jul-96, presumably produced in Taiwan",
+                "May-97, presumably produced in Taiwan",
+                "Mar-98, presumably produced in Taiwan",
+                "Jan-99, presumably produced in Taiwan",
+                "Nov-99, presumably produced in Taiwan",
+                "Sep-00, presumably produced in Taiwan",
+                "Jul-01, presumably produced in Taiwan",
+                "May-02, presumably produced in Taiwan",
+                "Mar-03, presumably produced in Taiwan",
+                "Jan-04, presumably produced in Taiwan",
+                "Nov-04, presumably produced in Taiwan",
+                "Sep-05, presumably produced in Taiwan",
+                "Jul-06, presumably produced in Taiwan",
+                "May-07, presumably produced in Taiwan",
+                "Mar-08, presumably produced in Taiwan",
+                "Jan-09, presumably produced in Taiwan",
+                "Nov-10, presumably produced in Taiwan",
+                "Sep-10, presumably produced in Taiwan"],
+            7: [
+                "Oct-89, presumably produced in Japan",
+                "Aug-90, could produced in Japan or Taiwan",
+                "Jun-91, presumably produced in Taiwan",
+                "Apr-92, presumably produced in Taiwan",
+                "Feb-93, presumably produced in Taiwan",
+                "Dec-93, presumably produced in Taiwan",
+                "Oct-94, presumably produced in Taiwan",
+                "Aug-95, presumably produced in Taiwan",
+                "Jun-96, presumably produced in Taiwan",
+                "Apr-97, presumably produced in Taiwan",
+                "Feb-98, presumably produced in Taiwan",
+                "Dec-98, presumably produced in Taiwan",
+                "Oct-99, presumably produced in Taiwan",
+                "Aug-00, presumably produced in Taiwan",
+                "Jun-01, presumably produced in Taiwan",
+                "Apr-02, presumably produced in Taiwan",
+                "Feb-03, presumably produced in Taiwan",
+                "Dec-03, presumably produced in Taiwan",
+                "Oct-04, presumably produced in Taiwan",
+                "Aug-05, presumably produced in Taiwan",
+                "Jun-06, presumably produced in Taiwan",
+                "Apr-07, presumably produced in Taiwan",
+                "Feb-08, presumably produced in Taiwan",
+                "Dec-08, presumably produced in Taiwan",
+                "Oct-10, presumably produced in Taiwan",
+                "Aug-10, presumably produced in Taiwan"],
+            6: [
+                "Sep-89, presumably produced in Japan",
+                "Jul-90, could produced in Japan or Taiwan",
+                "May-91, presumably produced in Taiwan",
+                "Mar-92, presumably produced in Taiwan",
+                "Jan-93, presumably produced in Taiwan",
+                "Nov-93, presumably produced in Taiwan",
+                "Sep-94, presumably produced in Taiwan",
+                "Jul-95, presumably produced in Taiwan",
+                "May-96, presumably produced in Taiwan",
+                "Mar-97, presumably produced in Taiwan",
+                "Jan-98, presumably produced in Taiwan",
+                "Nov-98, presumably produced in Taiwan",
+                "Sep-99, presumably produced in Taiwan",
+                "Jul-00, presumably produced in Taiwan",
+                "May-01, presumably produced in Taiwan",
+                "Mar-02, presumably produced in Taiwan",
+                "Jan-03, presumably produced in Taiwan",
+                "Nov-03, presumably produced in Taiwan",
+                "Sep-04, presumably produced in Taiwan",
+                "Jul-05, presumably produced in Taiwan",
+                "May-06, presumably produced in Taiwan",
+                "Mar-07, presumably produced in Taiwan",
+                "Jan-08, presumably produced in Taiwan",
+                "Nov-08, presumably produced in Taiwan",
+                "Sep-10, presumably produced in Taiwan",
+                "Jul-10, presumably produced in Taiwan"],
+            5: [
+                "Aug-89, presumably produced in Japan",
+                "Jun-90, could produced in Japan or Taiwan",
+                "Apr-91, presumably produced in Taiwan",
+                "Feb-92, presumably produced in Taiwan",
+                "Dec-92, presumably produced in Taiwan",
+                "Oct-93, presumably produced in Taiwan",
+                "Aug-94, presumably produced in Taiwan",
+                "Jun-95, presumably produced in Taiwan",
+                "Apr-96, presumably produced in Taiwan",
+                "Feb-97, presumably produced in Taiwan",
+                "Dec-97, presumably produced in Taiwan",
+                "Oct-98, presumably produced in Taiwan",
+                "Aug-99, presumably produced in Taiwan",
+                "Jun-00, presumably produced in Taiwan",
+                "Apr-01, presumably produced in Taiwan",
+                "Feb-02, presumably produced in Taiwan",
+                "Dec-02, presumably produced in Taiwan",
+                "Oct-03, presumably produced in Taiwan",
+                "Aug-04, presumably produced in Taiwan",
+                "Jun-05, presumably produced in Taiwan",
+                "Apr-06, presumably produced in Taiwan",
+                "Feb-07, presumably produced in Taiwan",
+                "Dec-07, presumably produced in Taiwan",
+                "Oct-08, presumably produced in Taiwan",
+                "Aug-10, presumably produced in Taiwan",
+                "Jun-10, presumably produced in Taiwan"],
+            4: [
+                "Jul-89, presumably produced in Japan",
+                "May-90, could produced in Japan or Taiwan",
+                "Mar-91, presumably produced in Taiwan",
+                "Jan-92, presumably produced in Taiwan",
+                "Nov-92, presumably produced in Taiwan",
+                "Sep-93, presumably produced in Taiwan",
+                "Jul-94, presumably produced in Taiwan",
+                "May-95, presumably produced in Taiwan",
+                "Mar-96, presumably produced in Taiwan",
+                "Jan-97, presumably produced in Taiwan",
+                "Nov-97, presumably produced in Taiwan",
+                "Sep-98, presumably produced in Taiwan",
+                "Jul-99, presumably produced in Taiwan",
+                "May-00, presumably produced in Taiwan",
+                "Mar-01, presumably produced in Taiwan",
+                "Jan-02, presumably produced in Taiwan",
+                "Nov-02, presumably produced in Taiwan",
+                "Sep-03, presumably produced in Taiwan",
+                "Jul-04, presumably produced in Taiwan",
+                "May-05, presumably produced in Taiwan",
+                "Mar-06, presumably produced in Taiwan",
+                "Jan-07, presumably produced in Taiwan",
+                "Nov-07, presumably produced in Taiwan",
+                "Sep-08, presumably produced in Taiwan",
+                "Jul-10, presumably produced in Taiwan",
+                "May-10, presumably produced in Taiwan"],
+            3: [
+                "Jun-89, presumably produced in Japan",
+                "Apr-90, could produced in Japan or Taiwan",
+                "Feb-91, presumably produced in Taiwan",
+                "Dec-91, presumably produced in Taiwan",
+                "Oct-92, presumably produced in Taiwan",
+                "Aug-93, presumably produced in Taiwan",
+                "Jun-94, presumably produced in Taiwan",
+                "Apr-95, presumably produced in Taiwan",
+                "Feb-96, presumably produced in Taiwan",
+                "Dec-96, presumably produced in Taiwan",
+                "Oct-97, presumably produced in Taiwan",
+                "Aug-98, presumably produced in Taiwan",
+                "Jun-99, presumably produced in Taiwan",
+                "Apr-00, presumably produced in Taiwan",
+                "Feb-01, presumably produced in Taiwan",
+                "Dec-01, presumably produced in Taiwan",
+                "Oct-02, presumably produced in Taiwan",
+                "Aug-03, presumably produced in Taiwan",
+                "Jun-04, presumably produced in Taiwan",
+                "Apr-05, presumably produced in Taiwan",
+                "Feb-06, presumably produced in Taiwan",
+                "Dec-06, presumably produced in Taiwan",
+                "Oct-07, presumably produced in Taiwan",
+                "Aug-08, presumably produced in Taiwan",
+                "Jun-10, presumably produced in Taiwan",
+                "Apr-10, presumably produced in Taiwan"],
+            2: [
+                "May-89, presumably produced in Japan",
+                "Mar-90, could produced in Japan or Taiwan",
+                "Jan-91, presumably produced in Taiwan",
+                "Nov-91, presumably produced in Taiwan",
+                "Sep-92, presumably produced in Taiwan",
+                "Jul-93, presumably produced in Taiwan",
+                "May-94, presumably produced in Taiwan",
+                "Mar-95, presumably produced in Taiwan",
+                "Jan-96, presumably produced in Taiwan",
+                "Nov-96, presumably produced in Taiwan",
+                "Sep-97, presumably produced in Taiwan",
+                "Jul-98, presumably produced in Taiwan",
+                "May-99, presumably produced in Taiwan",
+                "Mar-00, presumably produced in Taiwan",
+                "Jan-01, presumably produced in Taiwan",
+                "Nov-01, presumably produced in Taiwan",
+                "Sep-02, presumably produced in Taiwan",
+                "Jul-03, presumably produced in Taiwan",
+                "May-04, presumably produced in Taiwan",
+                "Mar-05, presumably produced in Taiwan",
+                "Jan-06, presumably produced in Taiwan",
+                "Nov-06, presumably produced in Taiwan",
+                "Sep-07, presumably produced in Taiwan",
+                "Jul-08, presumably produced in Taiwan",
+                "May-10, presumably produced in Taiwan",
+                "Mar-10, presumably produced in Taiwan"],
+            1: [
+                "Apr-89, presumably produced in Japan",
+                "Feb-90, could produced in Japan or Taiwan",
+                "Dec-90, could produced in Japan or Taiwan",
+                "Oct-91, presumably produced in Taiwan",
+                "Aug-92, presumably produced in Taiwan",
+                "Jun-93, presumably produced in Taiwan",
+                "Apr-94, presumably produced in Taiwan",
+                "Feb-95, presumably produced in Taiwan",
+                "Dec-95, presumably produced in Taiwan",
+                "Oct-96, presumably produced in Taiwan",
+                "Aug-97, presumably produced in Taiwan",
+                "Jun-98, presumably produced in Taiwan",
+                "Apr-99, presumably produced in Taiwan",
+                "Feb-00, presumably produced in Taiwan",
+                "Dec-00, presumably produced in Taiwan",
+                "Oct-01, presumably produced in Taiwan",
+                "Aug-02, presumably produced in Taiwan",
+                "Jun-03, presumably produced in Taiwan",
+                "Apr-04, presumably produced in Taiwan",
+                "Feb-05, presumably produced in Taiwan",
+                "Dec-05, presumably produced in Taiwan",
+                "Oct-06, presumably produced in Taiwan",
+                "Aug-07, presumably produced in Taiwan",
+                "Jun-08, presumably produced in Taiwan",
+                "Apr-10, presumably produced in Taiwan",
+                "Feb-10, presumably produced in Taiwan"],
+            0: [
+                "Mar-89, presumably produced in Japan",
+                "Jan-90, could produced in Japan or Taiwan",
+                "Nov-90, could produced in Japan or Taiwan",
+                "Sep-91, presumably produced in Taiwan",
+                "Jul-92, presumably produced in Taiwan",
+                "May-93, presumably produced in Taiwan",
+                "Mar-94, presumably produced in Taiwan",
+                "Jan-95, presumably produced in Taiwan",
+                "Nov-95, presumably produced in Taiwan",
+                "Sep-96, presumably produced in Taiwan",
+                "Jul-97, presumably produced in Taiwan",
+                "May-98, presumably produced in Taiwan",
+                "Mar-99, presumably produced in Taiwan",
+                "Jan-00, presumably produced in Taiwan",
+                "Nov-00, presumably produced in Taiwan",
+                "Sep-01, presumably produced in Taiwan",
+                "Jul-02, presumably produced in Taiwan",
+                "May-03, presumably produced in Taiwan",
+                "Mar-04, presumably produced in Taiwan",
+                "Jan-05, presumably produced in Taiwan",
+                "Nov-05, presumably produced in Taiwan",
+                "Sep-06, presumably produced in Taiwan",
+                "Jul-07, presumably produced in Taiwan",
+                "May-08, presumably produced in Taiwan",
+                "Mar-10, presumably produced in Taiwan",
+                "Jan-10, presumably produced in Taiwan"]
+        }
+
+        function decoder(serial) {
+            if (isNaN(serial)) {
+                const regger = /^[A-Za-z]{2}\d+$/
+                if (!regger.test(serial)) {
+                    return `invalid serial`;
+                }
+                //modern serial starting with two letters
+                //source used: http://llamamusic.com/super-jx/Roland_Serial_Number_Decoder_1989-2010.pdf
+                const first = firstCharTable[serial.substr(0, 1).toUpperCase()];
+                const presumedDate = charDecodingGrid[serial.substr(2, 1)][(parseInt(serial.substr(1, 1).toUpperCase(), 36) - 9) - 1];
+
+                //console.log(serial.substr(serial.length - 4, 4));
+                const unit_number = first + serial.substr(serial.length - 4, 4);
+
+                return `date: ${presumedDate}. unit number: ${unit_number}`;
+            } else {
+                if (serial.length === 4 || serial.length === 5) {
+                    // Stamped Batch Code (4-5 Digits)
+                    serial = serial * 1;
+
+                    // 6300 - 6500 = 1977
+                    if (serial >= 6300 && serial <= 6599) {
+                        return `date: 1977, presumably produced in Japan`;
+                    }
+
+                    // 6600 - 7700 = 1978
+                    if (serial >= 6600 && serial <= 7799) {
+                        return `date: 1978, presumably produced in Japan`;
+                    }
+
+                    // 7800 - 8900 = 1979
+                    if (serial >= 7800 && serial <= 8999) {
+                        return `date: 1979, presumably produced in Japan`;
+                    }
+
+                    // 9000 - 10100 = 1980
+                    if (serial >= 9000 && serial <= 10199) {
+                        return `date: 1980, presumably produced in Japan`;
+                    }
+
+                    // 10200 - 10500 = 1981
+                    if (serial >= 10200 && serial <= 10500) {
+                        return `date: 1981, presumably produced in Japan`;
+                    }
+                }
+
+                if (serial.length == 6) {
+                    // 02XXXX - 13XXXX = 1981
+                    if (serial >= 20000 && serial <= 139999) {
+                        return `date: 1981, presumably produced in Japan`;
+                    }
+
+                    // 14XXXX - 25XXXX = 1982
+                    if (serial >= 140000 && serial <= 259999) {
+                        return `date: 1982, presumably produced in Japan`;
+                    }
+
+                    // 26XXXX - 37XXXX = 1983
+                    if (serial >= 260000 && serial <= 379999) {
+                        return `date: 1983, presumably produced in Japan`;
+                    }
+
+                    // 38XXXX - 49XXXX = 1984
+                    if (serial >= 380000 && serial <= 499999) {
+                        return `date: 1984, presumably produced in Japan`;
+                    }
+
+                    // 50XXXX - 61XXXX = 1985
+                    if (serial >= 500000 && serial <= 619999) {
+                        return `date: 1985, presumably produced in Japan`;
+                    }
+
+                    // 62XXXX - 73XXXX = 1986
+                    if (serial >= 620000 && serial <= 739999) {
+                        return `date: 1986, presumably produced in Japan`;
+                    }
+
+                    // 74XXXX - 85XXXX = 1987
+                    if (serial >= 740000 && serial <= 859999) {
+                        return `date: 1987, presumably produced in Japan`;
+                    }
+
+                    // 86XXXX - 97XXXX = 1988
+                    if (serial >= 860000 && serial <= 979999) {
+                        return `date: 1988, presumably produced in Japan`;
+                    }
+
+                    // 98XXXX - 99XXXX = 1989
+                    if (serial >= 980000 && serial <= 999999) {
+                        return `date: 1989, presumably produced in Japan`;
+                    }
+
+                }
+            }
+        }
+    </script>
     
 </body>
 
